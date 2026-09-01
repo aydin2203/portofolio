@@ -1,0 +1,10 @@
+npm init -y
+npm i express
+npx create-next-app@latest ./ --yes
+npm run dev
+
+
+// buat hapus git 
+rm -rf .git
+
+//MVC (Models, View, Controller)
