@@ -6,6 +6,8 @@ const cors = require('cors');
 // 2. Load file konfigurasi .env
 dotenv.config();
 
+const db = require('./config/db');
+
 // 3. inisialisasi aplikasi Express
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -35,13 +37,17 @@ app.get('/api/biodata', (req, res) => {
     res.status(200).json({
     "success": true,
     "data": {
-    "nama": "Nama Lengkap Siswa",
+    "nama": "Abdillah Aydin Syah",
     "kelas": "XI RPL 1",
     "cita_cita": "Fullstack Developer",
     "hobi": "Coding & Gaming"
     }
     });
 });
+
+const profileRoutes = require('./routes/profileRoutes');
+app.use('/api/profile', profileRoutes);
+
 
 app.use((req, res) => {
     res.status(404).json({
