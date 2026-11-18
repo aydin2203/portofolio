@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
-const { Connection } = require('mysql2/promise');
 require('dotenv').config();
+
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -17,8 +17,7 @@ pool.getConnection((err, connection) => {
     if (err) {
         console.error('Kesalahan Koneksi Database:', err.message);
     } else {
-        console.log('Berhasil terhubung ke Database MySQL (db_portofolio)');
-        connection.release();
+        console.log('Berhasil Terhubung ke Database MySQL (db_portofolio)');
     }
 });
 

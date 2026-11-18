@@ -1,26 +1,24 @@
-// 1. Import library yang dibutuhkan
-const express= require('express');
-const dotenv = require('dotenv')
+const express = require('express');
+const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 
-// 2. Load file konfigurasi .env
 dotenv.config();
 
 const db = require('./config/db');
-
-// 3. inisialisasi aplikasi Express
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
-// Middleware dasar
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+
 app.get('/', (req, res) => {
     res.status(200).json({
         success: true,
-        message: 'Selamart Datang di API Portofolio Dinamis!',
+        message: 'Selamat datang di API Portofolio Dinamis!',
         version: '1.0.0'
     });
 });
@@ -28,26 +26,42 @@ app.get('/', (req, res) => {
 app.get('/api/status', (req, res) => {
     res.status(200).json({
         success: true,
-        message: 'Server dalam keadaan sehat dan aktif',
+        message: 'Server dalam keadaan sehat dan aktif.',
         timestamp: new Date().toISOString()
     });
 });
 
 app.get('/api/biodata', (req, res) => {
     res.status(200).json({
-    "success": true,
-    "data": {
-    "nama": "Abdillah Aydin Syah",
-    "kelas": "XI RPL 1",
-    "cita_cita": "Fullstack Developer",
-    "hobi": "Coding & Gaming"
-    }
+    success: true,
+    data: {
+        nama: "Nama Lengkap Siswa",
+        kelas: "XI RPL 1",
+        cita_cita: "Fullstack Developer",
+        hobi: "Coding & Gaming"
+    },
     });
 });
 
+const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
-app.use('/api/profile', profileRoutes);
+const projectRoutes = require('./routes/projectRoutes');
+const skillRoutes = require('./routes/skillRoutes');
+const experienceRoutes = require('./routes/experienceRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const certificateRoutes = require('./routes/certificateRoutes');
+const testimoniRoutes = require('./routes/testimoniRoutes');
+const resumeRoutes = require('./routes/resumeRoutes');
 
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/skills', skillRoutes);
+app.use('/api/experiences', experienceRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/testimonies', testimoniRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 app.use((req, res) => {
     res.status(404).json({
@@ -57,8 +71,8 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`===================================`);
-    console.log(`server berjalan di http://localhost:${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`===================================`);
+    console.log(`====================================`);
+    console.log(`Server berjalan di http://localhost:${PORT}`);
+    console.log(`Enviroment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`====================================`)
 });
